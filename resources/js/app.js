@@ -28,6 +28,48 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+ class Errors {
+    constructor() {
+        this.errors = {};
+    }
+
+    get(field) {
+        alert(field);
+        if(this.errors.errors.field) {
+            return this.errors.errors.field[0];
+        }
+    }
+
+    register(errorObject) {
+        // alert('here');
+        console.log(errorObject);
+        this.errors = errorObject;
+    }
+ }
+
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+
+    data: {
+        name: '',
+        description: '',
+        errors: new Errors()
+    },
+
+    methods: {
+        onSubmit: function() {
+            console.log(this.name);
+            axios.post('/project', this.$data).then(function(response) {}).catch(function(error) {
+                alert('error');
+                // console.log(error.response.data.errors);
+                this.errors.register(error.response.data);
+            }.bind(this));
+        }
+    },
+
+    computed: {
+        dataOk: function() {
+            return true;
+        }
+    }
 });

@@ -48967,6 +48967,12 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -48992,8 +48998,58 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+var Errors =
+/*#__PURE__*/
+function () {
+  function Errors() {
+    _classCallCheck(this, Errors);
+
+    this.errors = {};
+  }
+
+  _createClass(Errors, [{
+    key: "get",
+    value: function get(field) {
+      alert(field);
+
+      if (this.errors.errors.field) {
+        return this.errors.errors.field[0];
+      }
+    }
+  }, {
+    key: "register",
+    value: function register(errorObject) {
+      // alert('here');
+      console.log(errorObject);
+      this.errors = errorObject;
+    }
+  }]);
+
+  return Errors;
+}();
+
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  data: {
+    name: '',
+    description: '',
+    errors: new Errors()
+  },
+  methods: {
+    onSubmit: function onSubmit() {
+      console.log(this.name);
+      axios.post('/project', this.$data).then(function (response) {}).catch(function (error) {
+        alert('error'); // console.log(error.response.data.errors);
+
+        this.errors.register(error.response.data);
+      }.bind(this));
+    }
+  },
+  computed: {
+    dataOk: function dataOk() {
+      return true;
+    }
+  }
 });
 
 /***/ }),
