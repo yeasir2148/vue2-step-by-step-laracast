@@ -8,6 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.JQuery = window.$ = require('jquery');
 
 /**
  * The following block of code may be used to automatically register your
@@ -31,19 +32,22 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  class Errors {
     constructor() {
         this.errors = {};
+        console.log('initial:' + this.get('name'));
     }
 
     get(field) {
-        alert(field);
-        if(this.errors.errors.field) {
-            return this.errors.errors.field[0];
+        if(this.errors[field]) {
+            return this.errors[field][0];
         }
     }
 
     register(errorObject) {
-        // alert('here');
         console.log(errorObject);
         this.errors = errorObject;
+    }
+
+    clear(event) {
+        delete this.errors[event.target.name];
     }
  }
 
@@ -60,16 +64,15 @@ const app = new Vue({
         onSubmit: function() {
             console.log(this.name);
             axios.post('/project', this.$data).then(function(response) {}).catch(function(error) {
-                alert('error');
-                // console.log(error.response.data.errors);
-                this.errors.register(error.response.data);
+                this.errors.register(error.response.data.errors);
             }.bind(this));
         }
     },
 
     computed: {
         dataOk: function() {
-            return true;
+            return this.name && this.description && JQuery.isEmptyObject(this.errors.errors);
         }
-    }
+    },
+
 });

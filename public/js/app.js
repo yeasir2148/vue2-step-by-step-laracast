@@ -48981,6 +48981,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+window.JQuery = window.$ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -49005,23 +49006,26 @@ function () {
     _classCallCheck(this, Errors);
 
     this.errors = {};
+    console.log('initial:' + this.get('name'));
   }
 
   _createClass(Errors, [{
     key: "get",
     value: function get(field) {
-      alert(field);
-
-      if (this.errors.errors.field) {
-        return this.errors.errors.field[0];
+      if (this.errors[field]) {
+        return this.errors[field][0];
       }
     }
   }, {
     key: "register",
     value: function register(errorObject) {
-      // alert('here');
       console.log(errorObject);
       this.errors = errorObject;
+    }
+  }, {
+    key: "clear",
+    value: function clear(event) {
+      delete this.errors[event.target.name];
     }
   }]);
 
@@ -49039,15 +49043,13 @@ var app = new Vue({
     onSubmit: function onSubmit() {
       console.log(this.name);
       axios.post('/project', this.$data).then(function (response) {}).catch(function (error) {
-        alert('error'); // console.log(error.response.data.errors);
-
-        this.errors.register(error.response.data);
+        this.errors.register(error.response.data.errors);
       }.bind(this));
     }
   },
   computed: {
     dataOk: function dataOk() {
-      return true;
+      return this.name && this.description && JQuery.isEmptyObject(this.errors.errors);
     }
   }
 });

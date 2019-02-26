@@ -9,18 +9,18 @@
     </head>
 
     <body>
-        <div id="app" class="container">
-            <form method="POST" action="/project" @submit.prevent="onSubmit">
+        <div id="app" class="container" v-cloak>
+            <form method="POST" action="/project" @submit.prevent="onSubmit" @keydown="errors.clear($event)">
                 <div class="control">
                     <label for="name" class="label">Project Name</label>
-                    <input type="text" name="name" id="name" v-model="name" @keydown="delete errors.name">
-                    <span v-if="errors !== null" style="color: red" v-text="errors.get('name')"></span> 
+                    <input type="text" name="name" id="name" v-model="name" >
+                    <span v-if="errors.get('name')" style="color: red" v-text="errors.get('name')"></span> 
                 </div>
                 
                 <div class="control">
                     <label for="description" class="label">Project Description</label>
-                    <input type="text" name="description" id="description" v-model="description" @keydown="delete errors.description">
-                    <span v-if="errors !== null && errors.hasOwnProperty('description')" style="color: red">Description cannot be empty</span>  
+                    <input type="text" name="description" id="description" v-model="description">
+                    <span v-if="errors.get('description')" style="color: red" v-text="errors.get('description')"></span>  
                 </div>
 
                 <div class="control">
