@@ -49005,51 +49005,117 @@ function () {
   function Errors() {
     _classCallCheck(this, Errors);
 
-    this.errors = {};
-    console.log('initial:' + this.get('name'));
+    this.errors = {}; // console.log('initial:' + this.get('name'));
   }
 
   _createClass(Errors, [{
-    key: "get",
-    value: function get(field) {
-      if (this.errors[field]) {
-        return this.errors[field][0];
-      }
+    key: "has",
+    value: function has(field) {
+      // console.log('here');
+      return this.errors.hasOwnProperty(field);
     }
   }, {
-    key: "register",
-    value: function register(errorObject) {
-      console.log(errorObject);
-      this.errors = errorObject;
+    key: "get",
+    value: function get(field) {
+      // console.log(field);
+      if (this.errors[field]) {
+        // console.log('here');
+        return this.errors[field][0];
+      }
     }
   }, {
     key: "clear",
     value: function clear(event) {
       delete this.errors[event.target.name];
     }
+  }, {
+    key: "any",
+    value: function any() {
+      return Object.keys(this.errors).length;
+    }
   }]);
 
   return Errors;
 }();
 
+var Form =
+/*#__PURE__*/
+function () {
+  function Form(formData) {
+    _classCallCheck(this, Form);
+
+    this.formData = formData;
+    this.dataOk = null;
+    this.errors = new Errors();
+    this.status = 'submitting';
+  }
+
+  _createClass(Form, [{
+    key: "registerErrors",
+    value: function registerErrors(errorsReturned) {
+      for (var field in errorsReturned) {
+        if (errorsReturned.hasOwnProperty(field)) {
+          // console.log(errorsReturned[field]);
+          Vue.set(this.errors.errors, field, errorsReturned[field]);
+        }
+      }
+    }
+  }, {
+    key: "onSubmit",
+    value: function onSubmit(method, url) {
+      axios[method](url, this.formData).then(function (response) {
+        this.reset();
+      }.bind(this)).catch(function (error) {
+        // console.log(error.response.data);
+        this.registerErrors(error.response.data.errors);
+      }.bind(this));
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      for (var field in this.formData) {
+        // console.log(field);
+        this.formData[field] = null;
+        this.clearErrors();
+      }
+
+      this.status = 'pending';
+    }
+  }, {
+    key: "clearErrors",
+    value: function clearErrors() {
+      this.errors.errors = {};
+    }
+  }]);
+
+  return Form;
+}();
+
 var app = new Vue({
   el: '#app',
   data: {
-    name: '',
-    description: '',
-    errors: new Errors()
+    // errors: new Errors(),
+    form: new Form({
+      name: null,
+      description: null // dataOk: false,
+
+    })
   },
-  methods: {
-    onSubmit: function onSubmit() {
-      console.log(this.name);
-      axios.post('/project', this.$data).then(function (response) {}).catch(function (error) {
-        this.errors.register(error.response.data.errors);
-      }.bind(this));
-    }
+  methods: {// onSubmit: function() {
+    //     console.log(this.name);
+    //     axios.post('/project', this.$data).then(function(response) {}).catch(function(error) {
+    //         this.errors.register(error.response.data.errors);
+    //     }.bind(this));
+    // }
   },
   computed: {
     dataOk: function dataOk() {
-      return this.name && this.description && JQuery.isEmptyObject(this.errors.errors);
+      return this.form.formData.name && this.form.formData.description && !this.form.errors.any();
+    }
+  },
+  watch: {
+    dataOk: function dataOk(newVal, oldVal) {
+      Vue.set(this.form, 'dataOk', newVal);
     }
   }
 });
@@ -49194,15 +49260,27 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/form.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/form.scss ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!****************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/form.scss ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! E:\xampp\htdocs\myProjects\vue-step-by-step\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\xampp\htdocs\myProjects\vue-step-by-step\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\xampp\htdocs\myProjects\vue-step-by-step\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! E:\xampp\htdocs\myProjects\vue-step-by-step\resources\sass\form.scss */"./resources/sass/form.scss");
 
 
 /***/ })
