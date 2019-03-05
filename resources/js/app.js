@@ -63,7 +63,7 @@ class Form{
     this.formData = formData;
     this.dataOk = null;
     this.errors = new Errors();
-    this.status = 'submitting';
+    this.status = 'pending';
     }
 
     registerErrors(errorsReturned) {
@@ -76,9 +76,10 @@ class Form{
     }
 
     onSubmit(method, url) {
-        axios[method](url, this.formData).then(function(response){
+        this.status = 'submitting';
+        axios[method](url, this.formData).then(setTimeout(function(response){
             this.reset();
-        }.bind(this)).catch(function(error){
+        }.bind(this),2000)).catch(function(error){
             // console.log(error.response.data);
             this.registerErrors(error.response.data.errors);
         }.bind(this));

@@ -1,4 +1,10 @@
-.form-pending {
-  background-image: "resources/images/pending.gif";
+form div.control {
+  margin-bottom: 5px;
+}
+
+button.form-pending img {
+  /*color: red;*/
+  width: 30px;
+  height: 25px;
 }
 

@@ -49047,7 +49047,7 @@ function () {
     this.formData = formData;
     this.dataOk = null;
     this.errors = new Errors();
-    this.status = 'submitting';
+    this.status = 'pending';
   }
 
   _createClass(Form, [{
@@ -49063,9 +49063,10 @@ function () {
   }, {
     key: "onSubmit",
     value: function onSubmit(method, url) {
-      axios[method](url, this.formData).then(function (response) {
+      this.status = 'submitting';
+      axios[method](url, this.formData).then(setTimeout(function (response) {
         this.reset();
-      }.bind(this)).catch(function (error) {
+      }.bind(this), 2000)).catch(function (error) {
         // console.log(error.response.data);
         this.registerErrors(error.response.data.errors);
       }.bind(this));
@@ -49260,27 +49261,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/sass/form.scss":
-/*!**********************************!*\
-  !*** ./resources/sass/form.scss ***!
-  \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ 0:
-/*!****************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/form.scss ***!
-  \****************************************************************************************/
+/*!*************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! E:\xampp\htdocs\myProjects\vue-step-by-step\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! E:\xampp\htdocs\myProjects\vue-step-by-step\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! E:\xampp\htdocs\myProjects\vue-step-by-step\resources\sass\form.scss */"./resources/sass/form.scss");
+module.exports = __webpack_require__(/*! E:\xampp\htdocs\myProjects\vue-step-by-step\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

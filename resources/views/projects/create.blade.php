@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Document</title>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="/css/app.css">
     </head>
 
     <body>
@@ -26,8 +26,8 @@
 
                 <div class="control">
                     <button type="submit" class="button is-primary" v-if="form.status === 'pending'" :disabled='!dataOk'>Submit</button>
-                    <button type="submit" class="button form-pending" v-if="form.status === 'pending'" :disabled='!dataOk'>
-                        <i></i>
+                    <button type="button" class="button form-pending" v-if="form.status === 'submitting'" :disabled='dataOk'>
+                        <img src="/images/pending.gif" alt="">
                     </button>
                 </div>
             </form>

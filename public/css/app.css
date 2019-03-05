@@ -10655,6 +10655,16 @@ a.text-dark:focus {
   }
 }
 
+form div.control {
+  margin-bottom: 5px;
+}
+
+button.form-pending img {
+  /*color: red;*/
+  width: 30px;
+  height: 25px;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
