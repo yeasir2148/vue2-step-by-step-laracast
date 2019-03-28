@@ -7,9 +7,8 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
-window.JQuery = window.$ = require('jquery');
 
+import router from './routes.js';
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,7 +20,7 @@ window.JQuery = window.$ = require('jquery');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -101,7 +100,8 @@ class Form{
 }
 
 const app = new Vue({
-    el: '#app',
+    el: '#app1',
+    router,
     data: {
         // errors: new Errors(),
         form: new Form({
@@ -121,13 +121,14 @@ const app = new Vue({
     },
 
     computed: {
-        dataOk: function() { return this.form.formData.name && this.form.formData.description && !this.form.errors.any(); }
+        dataOk: function() { return this.form.formData.name && this.form.formData.description && !this.form.errors.any(); },
     },
 
     watch: {
         dataOk: function(newVal, oldVal) {
             Vue.set(this.form, 'dataOk', newVal);
-        }
+        },
+
     },
 
 });
