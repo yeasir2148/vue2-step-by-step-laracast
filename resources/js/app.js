@@ -100,7 +100,7 @@ class Form{
 }
 
 const app = new Vue({
-    el: '#app1',
+    el: '#app',
     router,
     data: {
         // errors: new Errors(),
@@ -109,6 +109,7 @@ const app = new Vue({
             description: null,
             // dataOk: false,
         }),
+        activeRoute: window.location.pathname,
     },
 
     methods: {
@@ -131,4 +132,26 @@ const app = new Vue({
 
     },
 
+});
+
+
+const app1 = new Vue({
+    el: '#app1',
+    router,
+    data: {
+        activeRoute: router.history.current.fullPath,
+    },
+
+    methods: {
+    },
+
+    computed: {
+    },
+
+    watch: {
+    },
+
+    created: function() {
+        console.log(router.history.current);
+    }
 });

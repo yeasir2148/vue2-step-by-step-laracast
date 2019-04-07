@@ -51940,7 +51940,7 @@ function () {
 }();
 
 var app = new Vue({
-  el: '#app1',
+  el: '#app',
   router: _routes_js__WEBPACK_IMPORTED_MODULE_0__["default"],
   data: {
     // errors: new Errors(),
@@ -51948,7 +51948,8 @@ var app = new Vue({
       name: null,
       description: null // dataOk: false,
 
-    })
+    }),
+    activeRoute: window.location.pathname
   },
   methods: {// onSubmit: function() {
     //     console.log(this.name);
@@ -51966,6 +51967,19 @@ var app = new Vue({
     dataOk: function dataOk(newVal, oldVal) {
       Vue.set(this.form, 'dataOk', newVal);
     }
+  }
+});
+var app1 = new Vue({
+  el: '#app1',
+  router: _routes_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+  data: {
+    activeRoute: _routes_js__WEBPACK_IMPORTED_MODULE_0__["default"].history.current.fullPath
+  },
+  methods: {},
+  computed: {},
+  watch: {},
+  created: function created() {
+    console.log(_routes_js__WEBPACK_IMPORTED_MODULE_0__["default"].history.current);
   }
 });
 
@@ -52051,14 +52065,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var routes = [{
-  path: '/',
+  path: '/home',
   component: _Views_Home_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
 }, {
   path: '/about',
   component: __webpack_require__(/*! ./Views/About.vue */ "./resources/js/Views/About.vue").default
 }];
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  routes: routes
+  routes: routes,
+  linkActiveClass: 'is-active'
 }));
 
 /***/ }),

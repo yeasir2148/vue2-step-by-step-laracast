@@ -7,7 +7,8 @@
      <title>Laravel</title>
 
      <!-- Fonts -->
-     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css">
+     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito:200,600">
 
      <!-- Styles -->
      <link rel="stylesheet" type="text/css" href="/css/app.css">
@@ -15,8 +16,12 @@
    </head>
    <body>
       <div id="app1" class="container">
-         <router-link to="/">Home</router-link>
-         <router-link to="/about">About</router-link>
+         <router-link tag="li" to="/home" :class="{'current' : activeRoute == '/home'}">
+            <a>Home</a>
+         </router-link>
+         <router-link tag="li" to="/about">
+            <a>About</a>
+         </router-link>
 
          <router-view></router-view>
       </div>
