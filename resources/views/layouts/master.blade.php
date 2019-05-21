@@ -15,16 +15,16 @@
 
    </head>
    <body>
-      <div id="app1" class="container">
-         <router-link tag="li" to="/home" :class="{'current' : activeRoute == '/home'}">
-            <a>Home</a>
-         </router-link>
-         <router-link tag="li" to="/about">
-            <a>About</a>
-         </router-link>
+      <div id="app1">
+        @include('layouts.header')
 
-         <router-view></router-view>
+        <section class="section">
+          <div class="container">
+            <router-view></router-view>  
+          </div>
+        </section>
+        
       </div>
       <script type="text/javascript" src="/js/app.js"></script>
-   </body>
+  </body>
 </html>

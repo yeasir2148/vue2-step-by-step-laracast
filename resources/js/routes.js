@@ -9,7 +9,11 @@ const routes = [
    {
       path: '/about',
       component: require('./Views/About.vue').default
-   }
+   },
+   {
+    path: '/contacts',
+    component: require('./Views/About.vue').default
+ },
 ]
 
 export default new VueRouter ({

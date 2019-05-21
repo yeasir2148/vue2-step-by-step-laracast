@@ -107,7 +107,6 @@ const app = new Vue({
         form: new Form({
             name: null,
             description: null,
-            // dataOk: false,
         }),
         activeRoute: window.location.pathname,
     },
@@ -139,19 +138,34 @@ const app1 = new Vue({
     el: '#app1',
     router,
     data: {
-        activeRoute: router.history.current.fullPath,
+        routerObj: router,
+        activeRoute: router.currentRoute.path,
+
     },
 
     methods: {
+        printclass: function() {
+            console.log(this.activeRoute);
+        }
     },
 
     computed: {
     },
 
     watch: {
+        'routerObj.currentRoute': {
+            handler(newVal, oldVal) {
+                console.log('changed');
+            }, deep: true
+        },
+
+        $route: function(to, from) {
+            console.log('changed2');
+            this.activeRoute = to.path;
+        }
     },
 
     created: function() {
-        console.log(router.history.current);
+        console.log(router.currentRoute);
     }
 });
