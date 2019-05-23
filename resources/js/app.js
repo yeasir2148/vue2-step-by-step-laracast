@@ -135,37 +135,37 @@ const app = new Vue({
 
 
 const app1 = new Vue({
-    el: '#app1',
-    router,
-    data: {
-        routerObj: router,
-        activeRoute: router.currentRoute.path,
+   el: '#app1',
+   router,
+   data: {
+      routerObj: router,
+      activeRoute: router.currentRoute.path,
+   },
 
-    },
+   methods: {
+      printclass: function() {
+         console.log(this.activeRoute);
+      }
+   },
 
-    methods: {
-        printclass: function() {
-            console.log(this.activeRoute);
-        }
-    },
+   computed: {
+   },
 
-    computed: {
-    },
+   watch: {
+   // watching any of the routerObj or route will do
+   'routerObj.currentRoute': {
+      handler(newVal, oldVal) {
+            console.log('changed');
+      }, deep: true
+   },
 
-    watch: {
-        'routerObj.currentRoute': {
-            handler(newVal, oldVal) {
-                console.log('changed');
-            }, deep: true
-        },
+   $route: function(to, from) {
+      console.log('changed2');
+      this.activeRoute = to.path;
+   }
+   },
 
-        $route: function(to, from) {
-            console.log('changed2');
-            this.activeRoute = to.path;
-        }
-    },
-
-    created: function() {
-        console.log(router.currentRoute);
-    }
+   created: function() {
+      console.log(router.currentRoute);
+   }
 });
