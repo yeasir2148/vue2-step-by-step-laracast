@@ -7,19 +7,24 @@
      <title>Laravel</title>
 
      <!-- Fonts -->
-     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css">
+     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Nunito:200,600">
 
      <!-- Styles -->
      <link rel="stylesheet" type="text/css" href="/css/app.css">
 
    </head>
    <body>
-      <div id="app1" class="container">
-         <router-link to="/">Home</router-link>
-         <router-link to="/about">About</router-link>
+      <div id="app1">
+        @include('layouts.header')
 
-         <router-view></router-view>
+        <section class="section">
+          <div class="container">
+            <router-view></router-view>  
+          </div>
+        </section>
+        
       </div>
       <script type="text/javascript" src="/js/app.js"></script>
-   </body>
+  </body>
 </html>
