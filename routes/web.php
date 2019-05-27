@@ -16,5 +16,9 @@ Route::get('/', function () {
 });
 
 Route::get('/project/create','FormController@create' );
+Route::get('/statuses', function() {
+   $response['statuses'] = App\Status::with('user:id,name')->get();
+   return $response;
+});
 
 Route::post('/project','FormController@store' );

@@ -20,7 +20,7 @@ Vue.config.devtools = true;
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
-
+window.moment = require('moment');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
