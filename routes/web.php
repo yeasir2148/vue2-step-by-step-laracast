@@ -15,10 +15,10 @@ Route::get('/', function () {
     return view('welcome1');
 });
 
+// Project routes
 Route::get('/project/create','FormController@create' );
-Route::get('/statuses', function() {
-   $response['statuses'] = App\Status::with('user:id,name')->get();
-   return $response;
-});
-
 Route::post('/project','FormController@store' );
+
+// Status routes
+Route::get('/statuses', 'StatusesController@index');
+Route::post('/statuses', 'StatusesController@store');
