@@ -18,7 +18,9 @@ try {
 window.Vue = require('vue');
 Vue.config.devtools = true;
 import VueRouter from 'vue-router';
+import VeeValidate from 'vee-validate';
 Vue.use(VueRouter);
+Vue.use(VeeValidate);
 
 window.moment = require('moment');
 
