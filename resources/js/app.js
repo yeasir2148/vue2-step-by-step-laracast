@@ -155,17 +155,17 @@ const app1 = new Vue({
    // watching any of the routerObj or route will do
    'routerObj.currentRoute': {
       handler(newVal, oldVal) {
-            console.log('changed');
+        // console.log('changed');
       }, deep: true
    },
 
    $route: function(to, from) {
-      console.log('changed2');
+      // console.log('changed2');
       this.activeRoute = to.path;
    }
    },
 
    created: function() {
-      console.log(router.currentRoute);
+      // console.log(router.currentRoute);
    }
 });

@@ -8,9 +8,8 @@
                      {{status.body}}
                   </div>
                </div>
-
+                
                <add-to-stream>
-                  
                </add-to-stream>
             </div>
         </div>
@@ -32,12 +31,12 @@
          }         
       },
       created() {
-         console.log('Component mounted.');
+         // console.log('Component mounted.');
          var com = this;
          // Fire ajax request to fetch statuses from database
          axios.get('/statuses')
             .then(function(response) {
-               console.log(response);
+               // console.log(response);
                if(response.data) {
                   com.statuses = response.data.statuses;
                }
