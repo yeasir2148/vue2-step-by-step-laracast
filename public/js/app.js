@@ -1748,7 +1748,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1762,6 +1761,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     postedAt: function postedAt(status) {
       return moment(status.created_at).fromNow();
+    },
+    updateStatuses: function updateStatuses(status) {
+      this.statuses.push(status);
     }
   },
   created: function created() {
@@ -1813,41 +1815,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       form: {
-        status: 'pending'
+        status: 'pending',
+        url: '/statuses',
+        data: {
+          newMessage: ''
+        }
       }
     };
   },
   methods: {
     onSubmit: function onSubmit() {
-      this.submitted = true;
-      this.$validator.validate().then(function (valid) {});
+      this.form.status = "submitting";
+      var vm = this;
+      this.$validator.validate().then(function (valid) {
+        console.log('validated');
+        var data = {};
+        console.log(vm.errors.has("body", 'form-1'));
+
+        if (valid) {
+          $("#newTweetForm").serializeArray().map(function (current) {
+            data[current.name] = current.value;
+          });
+          axios.post(vm.form.url, data).then(function (response) {
+            // console.log(response);
+            vm.form.data.newMessage = '';
+
+            if ([200, 201].includes(response.status)) {
+              vm.$emit('newStatusAdded', response.data);
+            }
+          });
+        }
+
+        vm.form.status = "pending";
+      });
     }
   },
   computed: {
@@ -52954,7 +52958,7 @@ var render = function() {
             ])
           }),
           _vm._v(" "),
-          _c("add-to-stream")
+          _c("add-to-stream", { on: { newStatusAdded: _vm.updateStatuses } })
         ],
         2
       )
@@ -52990,7 +52994,7 @@ var render = function() {
           "form",
           {
             ref: "form-1",
-            attrs: { action: "", "data-vv-scope": "form-1" },
+            attrs: { id: "newTweetForm", "data-vv-scope": "form-1" },
             on: {
               submit: function($event) {
                 $event.preventDefault()
@@ -53007,13 +53011,29 @@ var render = function() {
                     rawName: "v-validate",
                     value: "required|min:10",
                     expression: "'required|min:10'"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.data.newMessage,
+                    expression: "form.data.newMessage"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: {
-                  name: "newMessage",
+                  name: "body",
                   rows: "5",
-                  placeholder: "push message to stream"
+                  placeholder: "push message to stream",
+                  "data-vv-validate-on": ""
+                },
+                domProps: { value: _vm.form.data.newMessage },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form.data, "newMessage", $event.target.value)
+                  }
                 }
               }),
               _vm._v(" "),
@@ -53024,46 +53044,13 @@ var render = function() {
                     {
                       name: "show",
                       rawName: "v-show",
-                      value:
-                        _vm.errors.has("newMessage") &&
-                        _vm.form.status == "pending",
-                      expression:
-                        "errors.has('newMessage') && form.status=='pending'"
+                      value: _vm.errors.has("body", "form-1"),
+                      expression: 'errors.has("body","form-1")'
                     }
-                  ]
+                  ],
+                  staticClass: "text-danger"
                 },
-                [_vm._v(_vm._s(_vm.errors.first("newMessage")))]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: "required|max_value:10",
-                    expression: "'required|max_value:10'"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { name: "age", placeholder: "enter age" }
-              }),
-              _vm._v(" "),
-              _c(
-                "span",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value:
-                        _vm.errors.has("age") && _vm.form.status == "pending",
-                      expression: "errors.has('age') && form.status=='pending'"
-                    }
-                  ]
-                },
-                [_vm._v(_vm._s(_vm.errors.first("newMessage")))]
+                [_vm._v(_vm._s(_vm.errors.first("body", "form-1")))]
               )
             ]),
             _vm._v(" "),
@@ -53075,77 +53062,6 @@ var render = function() {
                   attrs: {
                     disabled:
                       _vm.errors.any("form-1") || !_vm.formValid["$form-1"]
-                  }
-                },
-                [_vm._v("Submit")]
-              )
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "form",
-          {
-            ref: "form-2",
-            attrs: { action: "", "data-vv-scope": "form-2" },
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.onSubmit($event)
-              }
-            }
-          },
-          [
-            _c("div", { staticClass: "form-group" }, [
-              _c("textarea", {
-                directives: [
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: "required|min:10",
-                    expression: "'required|min:10'"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  name: "newMessage",
-                  rows: "5",
-                  placeholder: "push message to stream"
-                },
-                on: {
-                  keyup: function($event) {
-                    _vm.submitted = false
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "span",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value:
-                        _vm.errors.has("newMessage") &&
-                        _vm.form.status == "pending",
-                      expression:
-                        "errors.has('newMessage') && form.status=='pending'"
-                    }
-                  ]
-                },
-                [_vm._v(_vm._s(_vm.errors.first("newMessage")))]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-success",
-                  attrs: {
-                    disabled:
-                      _vm.errors.any("form-2") || !_vm.formValid["$form-2"]
                   }
                 },
                 [_vm._v("Submit")]

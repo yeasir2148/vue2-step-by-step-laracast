@@ -2,46 +2,23 @@
    <div class="message">
    	<div class="messsage-header">
    		<div class="message-body">
-   			<form action="" v-on:submit.prevent="onSubmit" data-vv-scope="form-1" ref="form-1">
+   			<form id="newTweetForm" v-on:submit.prevent="onSubmit" data-vv-scope="form-1" ref="form-1">
                <div class="form-group">
                   <textarea
                      v-validate="'required|min:10'" 
-                     name="newMessage" 
+                     name="body" 
                      class="form-control" 
                      rows="5" 
-                     placeholder="push message to stream"></textarea>
-                  <span v-show="errors.has('newMessage') && form.status=='pending'">{{errors.first('newMessage')}}</span>
-               </div>
-
-               <div class="form-group">
-                  <input
-                     v-validate="'required|max_value:10'" 
-                     name="age" 
-                     class="form-control" 
-                     placeholder="enter age"></textarea>
-                  <span v-show="errors.has('age') && form.status=='pending'">{{errors.first('newMessage')}}</span>
+                     placeholder="push message to stream"
+                     data-vv-validate-on=""
+                     v-model="form.data.newMessage"></textarea>
+                  <span class="text-danger" v-show='errors.has("body","form-1")'>{{errors.first('body','form-1')}}</span>
                </div>
 
                <div class="form-group">
                   <button class="btn btn-success" :disabled="errors.any('form-1') || !formValid['$form-1']" >Submit</button>
                </div>
    			</form>
-
-            <form action="" v-on:submit.prevent="onSubmit" data-vv-scope="form-2" ref="form-2">
-               <div class="form-group">
-                  <textarea
-                     v-validate="'required|min:10'" 
-                     name="newMessage" 
-                     class="form-control" 
-                     rows="5" 
-                     @keyup="submitted=false"
-                     placeholder="push message to stream"></textarea>
-                  <span v-show="errors.has('newMessage') && form.status=='pending'">{{errors.first('newMessage')}}</span>
-               </div>
-               <div class="form-group">
-                  <button class="btn btn-success" :disabled="errors.any('form-2') || !formValid['$form-2']" >Submit</button>
-               </div>
-            </form>
    		</div>
    	</div>
    </div>
@@ -52,13 +29,36 @@
          return {
             form: {
                status: 'pending',
+               url: '/statuses',
+               data: {
+                  newMessage:''
+               }
             }
          }
       },
       methods: {
          onSubmit: function() {
-               this.submitted = true;
+            
+               this.form.status = "submitting";
+               var vm = this;
                this.$validator.validate().then(function(valid) {
+                  console.log('validated');
+                  var data = {};
+                  console.log(vm.errors.has("body",'form-1'));
+                  if(valid) {
+                     $("#newTweetForm").serializeArray().map(function(current) {
+                       data[current.name] = current.value;
+                     });
+                     
+                     axios.post(vm.form.url, data).then(response => {
+                        // console.log(response);
+                        vm.form.data.newMessage = '';
+                        if([200, 201].includes(response.status)) {
+                           vm.$emit('newStatusAdded', response.data);
+                        }
+                     });
+                  }
+                  vm.form.status = "pending";
             });
          }
       },

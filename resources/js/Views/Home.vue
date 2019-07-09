@@ -9,8 +9,7 @@
                   </div>
                </div>
                 
-               <add-to-stream>
-               </add-to-stream>
+               <add-to-stream @newStatusAdded="updateStatuses"></add-to-stream>
             </div>
         </div>
     </div>
@@ -28,7 +27,10 @@
       methods: {
          postedAt: function(status) {
             return moment(status.created_at).fromNow();
-         }         
+        },
+        updateStatuses(status) {
+           this.statuses.push(status);
+        }   
       },
       created() {
          // console.log('Component mounted.');
