@@ -11,9 +11,13 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/{home?}', function () {
     return view('welcome1');
-});
+})->where('home','home');
+
+//Carousel routes
+
+Route::get('/carousel', 'CarouselController@index');
 
 // Project routes
 Route::get('/project/create','FormController@create' );

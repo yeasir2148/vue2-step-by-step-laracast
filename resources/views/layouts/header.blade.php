@@ -1,4 +1,4 @@
-<section class="hero is-success is-fullheight">
+<section class="hero is-success is-mediumheight">
   <!-- Hero head: will stick at the top -->
   <div class="hero-head">
     <header class="navbar">
@@ -15,11 +15,11 @@
         </div>
         <div id="navbarMenuHeroC" class="navbar-menu">
           <div class="navbar-end">
-            <a class="navbar-item is-active">
+            <a class="navbar-item" :class="{'is-active': <?php echo json_encode(Request::path()=='home') ?>}" href="/home">
               Home
             </a>
-            <a class="navbar-item">
-              Examples
+            <a class="navbar-item" :class="{'is-active': <?php echo json_encode(Request::path()=='carousel') ?>}" href="/carousel">
+              Carousel
             </a>
             <a class="navbar-item">
               Documentation
@@ -49,9 +49,17 @@
       </h2>
     </div>
   </div>
-
+  {{var_dump(Request::path())}}
   <!-- Hero footer: will stick at the bottom -->
   <div class="hero-foot">
     @include('layouts.nav')
   </div>
 </section>
+
+@if(in_array(Request::path(), ["home","/"]))
+<section class="section">
+  <div class="container">
+    <router-view></router-view>  
+  </div>
+</section>
+@endif
